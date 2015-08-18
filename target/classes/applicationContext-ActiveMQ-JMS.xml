@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:amq="http://activemq.org/config/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+	http://activemq.org/config/1.0 http://people.apache.org/repository/org.apache.activemq/xsds/activemq-core-5.1-SNAPSHOT.xsd">
+	<bean id="activemqPropertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="10" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="location">
+			<value>classpath:activemq-jms.properties</value>
+		</property>
+	</bean>
+	
+	<bean id="activeMQfactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="${brokerURL}" />
+		<property name="userName" value="${userName}" />
+		<property name="password" value="${password}" />
+	</bean>
+	
+	<bean id="topicConsumer" class="org.chinamobile.commons.cm_framework_activemq.pub.TopicConsumer"
+		scope="prototype">
+		<property name="connectionFactory" ref="activeMQfactory" />
+	</bean>
+
+</beans>
